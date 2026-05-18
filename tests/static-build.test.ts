@@ -73,4 +73,16 @@ describe('Astro static build', () => {
     expect(fs.existsSync(path.join(distDir, 'css/tokens.css'))).toBe(true);
     expect(fs.existsSync(path.join(distDir, 'js/site.js'))).toBe(true);
   });
+
+  it('emits and links the paw favicon', () => {
+    expect(fs.existsSync(path.join(distDir, 'favicon.svg'))).toBe(true);
+
+    const htmlFiles = collectHtmlFiles(distDir);
+    for (const file of htmlFiles) {
+      const root = parse(fs.readFileSync(file, 'utf-8'));
+      const icon = root.querySelector('link[rel="icon"]');
+      expect(icon?.getAttribute('href'), `${file} should link favicon.svg`).toBe('/favicon.svg');
+      expect(icon?.getAttribute('type'), `${file} should declare SVG favicon type`).toBe('image/svg+xml');
+    }
+  });
 });
