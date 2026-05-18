@@ -1,0 +1,51 @@
+# Netlify configuration for the Pet Home Euthanasia US Astro static site.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# HTTP to HTTPS redirect.
+[[redirects]]
+  from = "http://pethomeeuthanasia.us/*"
+  to = "https://pethomeeuthanasia.us/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.pethomeeuthanasia.us/*"
+  to = "https://pethomeeuthanasia.us/:splat"
+  status = 301
+  force = true
+
+# Cache-control headers for Astro and static assets.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# Keep HTML fresh.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# 404 routing.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

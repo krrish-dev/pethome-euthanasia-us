@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Keep non-public and temporary pages out of search results.
+Disallow: /docs/
+Disallow: /city-template.html
+Disallow: /cost_temp.html
+Disallow: /design-system-preview.html
+Disallow: /*.bak$
+
+Sitemap: https://pethomeeuthanasia.us/sitemap-index.xml
+Sitemap: https://pethomeeuthanasia.us/sitemap.xml

@@ -1,0 +1,14 @@
+docs/
+*.md
+*.xlsx
+*.py
+__pycache__/
+*.pyc
+*.bak
+.venv/
+node_modules/
+dist/
+.dist/
+.astro/
+test-results/
+playwright-report/
