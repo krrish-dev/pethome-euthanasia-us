@@ -10,6 +10,7 @@ import injectBreadcrumbSchema from './src/plugins/inject-breadcrumb-schema';
 import injectRichSchema from './src/plugins/inject-rich-schema';
 import injectDesignPolish from './src/plugins/inject-design-polish';
 import normalizeSiteBranding from './src/plugins/normalize-site-branding';
+import normalizeSeoMeta from './src/plugins/normalize-seo-meta';
 import checkInternalLinks from './src/plugins/check-internal-links';
 import checkCanonicalUrls from './src/plugins/check-canonical-urls';
 
@@ -32,6 +33,7 @@ export default defineConfig({
     injectRichSchema(),
     injectDesignPolish(),
     normalizeSiteBranding(),
+    normalizeSeoMeta(),
     checkInternalLinks(),
     checkCanonicalUrls(),
   ],
