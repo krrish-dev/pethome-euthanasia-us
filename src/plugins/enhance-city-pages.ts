@@ -34,7 +34,7 @@ export default function enhanceCityPages(): AstroIntegration {
           const file = path.join(distDir, 'service-areas', `${city.slug}.html`);
           if (!fs.existsSync(file)) continue;
           const html = fs.readFileSync(file, 'utf-8');
-          if (html.includes('local-depth-section')) continue;
+          if (html.includes('city-source-rewrite') || html.includes('local-depth-section')) continue;
           fs.writeFileSync(file, html.replace('</main>', `${citySection(city)}</main>`));
           count += 1;
         }
