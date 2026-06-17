@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx';
 import normalizeSeoUrls from './src/plugins/normalize-seo-urls';
 import enhanceServicesHub from './src/plugins/enhance-services-hub';
 import enhanceCityPages from './src/plugins/enhance-city-pages';
+import expandServiceAreaHub from './src/plugins/expand-service-area-hub';
 import injectInternalLinking from './src/plugins/inject-internal-linking';
 import injectBreadcrumbSchema from './src/plugins/inject-breadcrumb-schema';
 import injectRichSchema from './src/plugins/inject-rich-schema';
@@ -25,6 +26,7 @@ export default defineConfig({
     normalizeSeoUrls(),
     enhanceServicesHub(),
     enhanceCityPages(),
+    expandServiceAreaHub(),
     injectInternalLinking(),
     injectBreadcrumbSchema(),
     injectRichSchema(),
