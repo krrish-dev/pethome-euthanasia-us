@@ -1,0 +1,107 @@
+---
+import { resourcePages } from '../../data/seo-pages';
+
+export function getStaticPaths() {
+  return resourcePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const canonical = `https://pethomeeuthanasia.us/resources/${page.slug}`;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>{page.title}</title>
+  <meta name="description" content={page.description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <style>
+    .guide-hero { background: var(--color-surface-raised); padding-block: var(--space-16) var(--space-12); text-align: center; border-bottom: 1px solid var(--color-border-subtle); }
+    .guide-hero .lead { max-width: 72ch; margin: var(--space-4) auto 0; }
+    .breadcrumbs { font-size: var(--text-sm); display: flex; justify-content: center; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-6); color: var(--color-text-muted); }
+    .breadcrumbs a { color: var(--color-primary-600); }
+    .guide-layout { display: grid; grid-template-columns: 1fr; gap: var(--space-10); }
+    @media (min-width: 960px) { .guide-layout { grid-template-columns: minmax(0, 1fr) 20rem; align-items: start; } }
+    .guide-section + .guide-section { margin-top: var(--space-10); }
+    .guide-section h2 { font-size: var(--text-3xl); margin-bottom: var(--space-4); }
+    .guide-section p { font-size: var(--text-lg); color: var(--color-text-body); line-height: var(--leading-relaxed); }
+    .guide-list { margin-top: var(--space-5); display: grid; gap: var(--space-3); padding-left: 1.25rem; }
+    .faq-list { display: grid; gap: var(--space-5); }
+    .faq-item { background: var(--color-surface-raised); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md); padding: var(--space-5); }
+    .faq-item h3 { color: var(--color-primary-700); font-size: var(--text-lg); margin-bottom: var(--space-2); }
+    .sidebar-card { background: var(--color-surface-raised); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: var(--space-7); box-shadow: var(--shadow-sm); position: sticky; top: var(--space-6); }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="nav" id="site-nav">
+    <div class="container nav__inner">
+      <a href="/" class="nav__brand">Pet Home Euthanasia</a>
+      <a href="tel:+17609120848" class="nav__mobile-call" aria-label="Call now">Call</a>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation menu">Menu</button>
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/service-areas">Service Areas</a></li>
+        <li><a href="/faq">FAQ</a></li>
+      </ul>
+      <div class="nav__actions"><a href="tel:+17609120848" class="btn btn--primary btn--sm">Call now</a></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="guide-hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a><span>/</span><a href="/resources">Resources</a><span>/</span><span aria-current="page">{page.h1}</span>
+        </nav>
+        <span class="section-label" style="justify-content:center;">{page.eyebrow}</span>
+        <h1>{page.h1}</h1>
+        <p class="lead">{page.intro}</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container guide-layout">
+        <article>
+          {page.sections.map((section) => (
+            <section class="guide-section">
+              <h2>{section.heading}</h2>
+              <p>{section.body}</p>
+              {section.bullets && <ul class="guide-list">{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}
+            </section>
+          ))}
+
+          <section class="guide-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-list">
+              {page.faqs.map((faq) => (
+                <article class="faq-item">
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        </article>
+
+        <aside class="sidebar-card">
+          <h2 style="font-size: var(--text-2xl);">Need guidance?</h2>
+          <p>{page.cta}</p>
+          <a href="tel:+17609120848" class="btn btn--primary btn--block" style="margin-top: var(--space-4);">Call Now</a>
+          <a href="/services/in-home-pet-euthanasia" class="btn btn--secondary btn--block" style="margin-top: var(--space-4);">View Main Service</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <script src="/js/site.js" defer></script>
+</body>
+</html>
