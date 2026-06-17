@@ -2,7 +2,11 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import normalizeSeoUrls from './src/plugins/normalize-seo-urls';
+import enhanceServicesHub from './src/plugins/enhance-services-hub';
+import enhanceCityPages from './src/plugins/enhance-city-pages';
+import injectInternalLinking from './src/plugins/inject-internal-linking';
 import injectBreadcrumbSchema from './src/plugins/inject-breadcrumb-schema';
+import injectRichSchema from './src/plugins/inject-rich-schema';
 import checkInternalLinks from './src/plugins/check-internal-links';
 import checkCanonicalUrls from './src/plugins/check-canonical-urls';
 
@@ -17,7 +21,11 @@ export default defineConfig({
     }),
     mdx(),
     normalizeSeoUrls(),
+    enhanceServicesHub(),
+    enhanceCityPages(),
+    injectInternalLinking(),
     injectBreadcrumbSchema(),
+    injectRichSchema(),
     checkInternalLinks(),
     checkCanonicalUrls(),
   ],
