@@ -7,6 +7,8 @@ import { parse } from 'node-html-parser';
 const SITE = 'https://pethomeeuthanasia.us';
 const BUSINESS_ID = `${SITE}/#business`;
 const WEBSITE_ID = `${SITE}/#website`;
+const BUSINESS_NAME = 'Pet Home Euthanasia Service';
+const BUSINESS_IMAGE = `${SITE}/assets/images/generated/home-hero-compassionate-care.png`;
 
 function collectHtmlFiles(dir: string): string[] {
   const files: string[] = [];
@@ -25,7 +27,7 @@ function collectHtmlFiles(dir: string): string[] {
 function clean(value = '') { return value.replace(/\s+/g, ' ').trim(); }
 
 function buildFaq(root: ReturnType<typeof parse>, canonical: string) {
-  const items = root.querySelectorAll('.faq-item').map((item) => {
+  const items = root.querySelectorAll('.faq-item, .city-faq-card').map((item) => {
     const q = clean(item.querySelector('h3')?.text || '');
     const a = clean(item.querySelector('p')?.text || '');
     if (!q || !a) return null;
@@ -37,6 +39,27 @@ function buildFaq(root: ReturnType<typeof parse>, canonical: string) {
 function serviceFor(canonical: string, pathname: string, name: string, description: string) {
   if (!pathname.startsWith('/services/') && !pathname.startsWith('/service-areas/')) return null;
   return { '@type': 'Service', '@id': `${canonical}#service`, name, description, provider: { '@id': BUSINESS_ID }, areaServed: 'Southern California', url: canonical };
+}
+
+function localBusinessSchema() {
+  return {
+    '@type': ['LocalBusiness', 'VeterinaryCare'],
+    '@id': BUSINESS_ID,
+    name: BUSINESS_NAME,
+    url: `${SITE}/`,
+    image: BUSINESS_IMAGE,
+    telephone: '+1-760-912-0848',
+    email: 'pethomeeuthanasiaservice@gmail.com',
+    priceRange: '$$-$$$',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Victorville',
+      addressRegion: 'CA',
+      addressCountry: 'US',
+    },
+    areaServed: ['Southern California', 'San Bernardino County', 'Riverside County', 'Los Angeles County', 'Orange County'],
+    openingHours: 'Mo-Su 08:00-20:00',
+  };
 }
 
 export default function injectRichSchema(): AstroIntegration {
@@ -55,12 +78,12 @@ export default function injectRichSchema(): AstroIntegration {
           const canonical = root.querySelector('link[rel="canonical"]')?.getAttribute('href');
           if (!canonical || !canonical.startsWith(SITE)) continue;
           const pathname = new URL(canonical).pathname.replace(/\/$/, '') || '/';
-          const title = clean(root.querySelector('h1')?.text || root.querySelector('title')?.text || 'Pet Home Euthanasia');
+          const title = clean(root.querySelector('h1')?.text || root.querySelector('title')?.text || BUSINESS_NAME);
           const desc = clean(root.querySelector('meta[name="description"]')?.getAttribute('content') || title);
           const graph: Array<Record<string, unknown>> = [
-            { '@type': ['LocalBusiness', 'VeterinaryCare'], '@id': BUSINESS_ID, name: 'Pet Home Euthanasia', url: `${SITE}/`, telephone: '+1-760-912-0848', priceRange: '$$-$$$' },
-            { '@type': 'WebSite', '@id': WEBSITE_ID, url: `${SITE}/`, name: 'Pet Home Euthanasia', publisher: { '@id': BUSINESS_ID } },
-            { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, headline: title, description: desc, isPartOf: { '@id': WEBSITE_ID }, publisher: { '@id': BUSINESS_ID } },
+            localBusinessSchema(),
+            { '@type': 'WebSite', '@id': WEBSITE_ID, url: `${SITE}/`, name: BUSINESS_NAME, publisher: { '@id': BUSINESS_ID } },
+            { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, headline: title, description: desc, image: BUSINESS_IMAGE, isPartOf: { '@id': WEBSITE_ID }, publisher: { '@id': BUSINESS_ID } },
           ];
           const service = serviceFor(canonical, pathname, title, desc);
           if (service) graph.push(service);
