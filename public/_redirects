@@ -1,31 +1,3 @@
-# Clean canonical URL redirects for Netlify.
-# Canonical policy: no .html extension and no trailing slash except homepage.
-# Do not use a global /*/ rule because it can redirect the homepage into a loop on Netlify.
-
-/index.html / 301!
-/*.html /:splat 301!
-
-/about/ /about 301!
-/contact/ /contact 301!
-/faq/ /faq 301!
-/pricing/ /pricing 301!
-/process/ /process 301!
-/service-areas/ /service-areas 301!
-/services/ /services 301!
-
-/service-areas/adelanto/ /service-areas/adelanto 301!
-/service-areas/apple-valley/ /service-areas/apple-valley 301!
-/service-areas/fontana/ /service-areas/fontana 301!
-/service-areas/hesperia/ /service-areas/hesperia 301!
-/service-areas/highland/ /service-areas/highland 301!
-/service-areas/los-angeles/ /service-areas/los-angeles 301!
-/service-areas/orange/ /service-areas/orange 301!
-/service-areas/palm-springs/ /service-areas/palm-springs 301!
-/service-areas/phelan/ /service-areas/phelan 301!
-/service-areas/rancho-cucamonga/ /service-areas/rancho-cucamonga 301!
-/service-areas/redlands/ /service-areas/redlands 301!
-/service-areas/riverside/ /service-areas/riverside 301!
-/service-areas/san-bernardino/ /service-areas/san-bernardino 301!
-/service-areas/upland/ /service-areas/upland 301!
-/service-areas/victorville/ /service-areas/victorville 301!
-/service-areas/wrightwood/ /service-areas/wrightwood 301!
+# Netlify redirects intentionally disabled.
+# Netlify's built-in Pretty URLs can serve Astro file-format pages such as /services from /services.html.
+# Keep canonical/internal URL normalization in the Astro build, but do not force URL redirects here to avoid redirect loops.
