@@ -1,6 +1,8 @@
 const SITE = 'https://pethomeeuthanasia.us';
 const BUSINESS_ID = `${SITE}/#business`;
 const WEBSITE_ID = `${SITE}/#website`;
+const BUSINESS_NAME = 'Pet Home Euthanasia Service';
+const BUSINESS_IMAGE = `${SITE}/assets/images/generated/home-hero-compassionate-care.png`;
 
 function label(segment: string) {
   return segment
@@ -14,12 +16,19 @@ export function businessSchema() {
   return {
     '@type': ['LocalBusiness', 'VeterinaryCare'],
     '@id': BUSINESS_ID,
-    name: 'Pet Home Euthanasia',
+    name: BUSINESS_NAME,
     url: `${SITE}/`,
+    image: BUSINESS_IMAGE,
     telephone: '+1-760-912-0848',
     email: 'pethomeeuthanasiaservice@gmail.com',
     priceRange: '$$-$$$',
     openingHours: 'Mo-Su 08:00-20:00',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Victorville',
+      addressRegion: 'CA',
+      addressCountry: 'US',
+    },
     areaServed: ['Southern California', 'San Bernardino County', 'Riverside County', 'Los Angeles County', 'Orange County'],
   };
 }
@@ -29,7 +38,7 @@ export function websiteSchema() {
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
     url: `${SITE}/`,
-    name: 'Pet Home Euthanasia',
+    name: BUSINESS_NAME,
     publisher: { '@id': BUSINESS_ID },
     inLanguage: 'en-US',
   };
@@ -89,6 +98,7 @@ export function webpageSchema(canonical: string, name: string, description: stri
     name,
     headline: name,
     description,
+    image: BUSINESS_IMAGE,
     isPartOf: { '@id': WEBSITE_ID },
     publisher: { '@id': BUSINESS_ID },
     inLanguage: 'en-US',
