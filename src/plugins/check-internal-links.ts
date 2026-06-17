@@ -43,6 +43,37 @@ function routeVariants(distDir: string, file: string): string[] {
   return [`/${rel}`];
 }
 
+function shouldSkipHref(href: string): boolean {
+  return (
+    href.startsWith('http') ||
+    href.startsWith('mailto:') ||
+    href.startsWith('tel:') ||
+    href.startsWith('#')
+  );
+}
+
+function stripSuffix(href: string): string {
+  return href.split('#')[0].split('?')[0];
+}
+
+function hasCleanUrlPolicyViolation(href: string): string | null {
+  const cleanHref = stripSuffix(href);
+
+  if (!cleanHref.startsWith('/')) {
+    return null;
+  }
+
+  if (cleanHref.includes('.html')) {
+    return 'internal links must not contain .html';
+  }
+
+  if (cleanHref.length > 1 && cleanHref.endsWith('/')) {
+    return 'internal links must not end with a trailing slash';
+  }
+
+  return null;
+}
+
 export default function checkInternalLinks(): AstroIntegration {
   return {
     name: 'pethome-check-internal-links',
@@ -73,20 +104,20 @@ export default function checkInternalLinks(): AstroIntegration {
               continue;
             }
 
-            if (
-              href.startsWith('http') ||
-              href.startsWith('mailto:') ||
-              href.startsWith('tel:') ||
-              href.startsWith('#')
-            ) {
+            if (shouldSkipHref(href)) {
               continue;
             }
 
-            let cleanHref = href.split('#')[0].split('?')[0];
-            if (cleanHref.endsWith('/') && cleanHref.length > 1) {
-              cleanHref = cleanHref.slice(0, -1);
+            const policyViolation = hasCleanUrlPolicyViolation(href);
+            if (policyViolation) {
+              logger.error(
+                `Clean URL policy violation: ${href} in ${path.relative(distDir, file)} (${policyViolation})`,
+              );
+              brokenLinksFound = true;
+              continue;
             }
 
+            let cleanHref = stripSuffix(href);
             if (!cleanHref.startsWith('/')) {
               cleanHref = `/${path
                 .normalize(path.join(path.dirname(path.relative(distDir, file)), cleanHref))
@@ -101,10 +132,10 @@ export default function checkInternalLinks(): AstroIntegration {
         }
 
         if (brokenLinksFound) {
-          throw new Error('Build failed: broken internal links detected.');
+          throw new Error('Build failed: broken internal links or clean URL policy violations detected.');
         }
 
-        logger.info('Internal link check passed successfully.');
+        logger.info('Internal link and clean URL checks passed successfully.');
       },
     },
   };
