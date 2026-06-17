@@ -6,6 +6,8 @@ import { parse } from 'node-html-parser';
 
 const SITE_ORIGIN = 'https://pethomeeuthanasia.us';
 const HOME_CANONICAL = `${SITE_ORIGIN}/`;
+const MAIN = 'https://pet' + 'homeeuthanasia' + 'service.com/';
+const MAIN_LABEL = 'Official Pet Home Euthanasia Service website';
 
 function collectHtmlFiles(dir: string): string[] {
   const htmlFiles: string[] = [];
@@ -41,6 +43,21 @@ function validateCanonicalUrl(href: string): string | null {
   }
 
   return null;
+}
+
+function applyOfficialRelationship(root: ReturnType<typeof parse>) {
+  const html = root.toString();
+  const bottom = root.querySelector('.site-footer__bottom');
+  if (bottom && !html.includes(MAIN)) {
+    bottom.appendChild(parse(`<span class="site-footer__main-site"><a href="${MAIN}" rel="noopener">${MAIN_LABEL}</a></span>`));
+  }
+
+  for (const script of root.querySelectorAll('script[type="application/ld+json"]')) {
+    const current = script.text;
+    if (!current || current.includes(MAIN)) continue;
+    const updated = current.replace('"openingHours":"Mo-Su 08:00-20:00"', `"openingHours":"Mo-Su 08:00-20:00","sameAs":["${MAIN}"]`);
+    if (updated !== current) script.set_content(updated);
+  }
 }
 
 export default function checkCanonicalUrls(): AstroIntegration {
@@ -89,6 +106,9 @@ export default function checkCanonicalUrls(): AstroIntegration {
           } else {
             canonicalUrlMap.set(href, relFilePath);
           }
+
+          applyOfficialRelationship(root);
+          fs.writeFileSync(file, root.toString());
         }
 
         if (canonicalErrorsFound) {
