@@ -1,0 +1,111 @@
+---
+import type { CityPageContent } from '../data/city-page-content';
+
+const { city } = Astro.props as { city: CityPageContent };
+const canonical = `https://pethomeeuthanasia.us/service-areas/${city.slug}`;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>{city.title}</title>
+  <meta name="description" content={city.description}>
+  <link rel="canonical" href={canonical}>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/seo-layout.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header class="nav" id="site-nav">
+    <div class="container nav__inner">
+      <a href="/" class="nav__brand">Pet Home Euthanasia</a>
+      <a href="tel:+17609120848" class="nav__mobile-call" aria-label="Call now">Call</a>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation menu">Menu</button>
+      <ul class="nav__links" id="nav-links" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+        <li><a href="/service-areas" class="is-active">Service Areas</a></li>
+        <li><a href="/faq">FAQ</a></li>
+      </ul>
+      <div class="nav__actions"><a href="tel:+17609120848" class="btn btn--primary btn--sm">Call now</a></div>
+    </div>
+  </header>
+
+  <main id="main" class="city-source-rewrite">
+    <section class="city-hero" style="background:linear-gradient(135deg,var(--color-hero-deep),var(--color-hero-dark) 62%,var(--color-primary-700));color:var(--color-text-inverse);">
+      <div class="city-shell" style="text-align:center;position:relative;z-index:1;">
+        <nav class="breadcrumbs" aria-label="Breadcrumb" style="justify-content:center;color:rgba(255,255,255,.78);">
+          <a href="/" style="color:rgba(255,255,255,.86);">Home</a><span>/</span><a href="/service-areas" style="color:rgba(255,255,255,.86);">Service Areas</a><span>/</span><span aria-current="page">{city.name}</span>
+        </nav>
+        <span class="section-label" style="justify-content:center;color:inherit;">{city.region} mobile veterinary care</span>
+        <h1>{city.hero}</h1>
+        <p class="lead" style="max-width:74ch;margin:var(--space-5) auto 0;color:rgba(255,255,255,.88);">{city.intro}</p>
+        <div class="btn-group" style="justify-content:center;margin-top:var(--space-8);">
+          <a href="tel:+17609120848" class="btn btn--primary btn--lg">Call (760) 912-0848</a>
+          <a href="/pricing" class="btn btn--secondary btn--lg">View Pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="city-shell city-layout">
+        <article>
+          <section class="city-cta-panel city-content-block">
+            <h2>Compassionate at-home care in {city.name}</h2>
+            <p>Our goal is to help your family understand what will happen, how to prepare, what aftercare choices are available, and whether a home appointment is the gentlest option for your dog or cat.</p>
+          </section>
+
+          {city.sections.map((section) => (
+            <section class="city-content-block">
+              <h2>{section.heading}</h2>
+              <p>{section.body}</p>
+              {section.bullets && <ul class="seo-list">{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>}
+            </section>
+          ))}
+
+          <section class="city-content-block">
+            <h2>{city.name} frequently asked questions</h2>
+            <div class="city-faq-grid">
+              {city.faqs.map((faq) => (
+                <article class="city-faq-card">
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="city-content-block">
+            <h2>Nearby service areas</h2>
+            <p>Families near {city.name} often compare nearby appointment availability before choosing a time window.</p>
+            <div class="city-nearby-grid">
+              {city.nearby.map((nearby) => (
+                <a class="city-quick-card" href={`/service-areas/${nearby.toLowerCase().replaceAll(' ', '-')}`}>{nearby}</a>
+              ))}
+            </div>
+          </section>
+        </article>
+
+        <aside class="seo-card city-sticky-card" style="padding:var(--seo-card-pad);">
+          <h2 style="font-size:var(--text-2xl);">Schedule in {city.name}</h2>
+          <p>Call with your pet’s weight, symptoms, city, preferred timing, and aftercare choice if known.</p>
+          <a href="tel:+17609120848" class="btn btn--primary btn--block">Call Now</a>
+          <a href="/resources/quality-of-life-scale" class="btn btn--secondary btn--block">Quality of Life Scale</a>
+          <a href="/services/pet-cremation-aftercare" class="btn btn--ghost btn--block">Aftercare Guide</a>
+          <hr style="margin-block:var(--space-6);border:0;border-top:1px solid var(--color-border-subtle);">
+          <p style="font-size:var(--text-sm);color:var(--color-text-muted);">Serving {city.name}, {city.county}, and nearby {city.region} communities by appointment.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <div class="mobile-cta-bar" aria-label="Quick contact actions"><a href="tel:+17609120848" class="btn btn--primary">Call</a><a href="/pricing" class="btn btn--secondary">Pricing</a></div>
+  <script src="/js/site.js" defer></script>
+</body>
+</html>
