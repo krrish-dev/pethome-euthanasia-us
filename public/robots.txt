@@ -9,4 +9,3 @@ Disallow: /design-system-preview.html
 Disallow: /*.bak$
 
 Sitemap: https://pethomeeuthanasia.us/sitemap-index.xml
-Sitemap: https://pethomeeuthanasia.us/sitemap.xml
