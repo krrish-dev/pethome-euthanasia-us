@@ -3,6 +3,7 @@ import type { CityPageContent } from '../data/city-page-content';
 
 const { city } = Astro.props as { city: CityPageContent };
 const canonical = `https://pethomeeuthanasia.us/service-areas/${city.slug}`;
+const heroImage = '/assets/images/generated/home-hero-compassionate-care.png';
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +24,7 @@ const canonical = `https://pethomeeuthanasia.us/service-areas/${city.slug}`;
   <a href="#main" class="skip-link">Skip to content</a>
   <header class="nav" id="site-nav">
     <div class="container nav__inner">
-      <a href="/" class="nav__brand">Pet Home Euthanasia</a>
+      <a href="/" class="nav__brand">Pet Home Euthanasia Service</a>
       <a href="tel:+17609120848" class="nav__mobile-call" aria-label="Call now">Call</a>
       <button class="nav__toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation menu">Menu</button>
       <ul class="nav__links" id="nav-links" role="list">
@@ -40,17 +41,22 @@ const canonical = `https://pethomeeuthanasia.us/service-areas/${city.slug}`;
 
   <main id="main" class="city-source-rewrite">
     <section class="city-hero" style="background:linear-gradient(135deg,var(--color-hero-deep),var(--color-hero-dark) 62%,var(--color-primary-700));color:var(--color-text-inverse);">
-      <div class="city-shell" style="text-align:center;position:relative;z-index:1;">
-        <nav class="breadcrumbs" aria-label="Breadcrumb" style="justify-content:center;color:rgba(255,255,255,.78);">
-          <a href="/" style="color:rgba(255,255,255,.86);">Home</a><span>/</span><a href="/service-areas" style="color:rgba(255,255,255,.86);">Service Areas</a><span>/</span><span aria-current="page">{city.name}</span>
-        </nav>
-        <span class="section-label" style="justify-content:center;color:inherit;">{city.region} mobile veterinary care</span>
-        <h1>{city.hero}</h1>
-        <p class="lead" style="max-width:74ch;margin:var(--space-5) auto 0;color:rgba(255,255,255,.88);">{city.intro}</p>
-        <div class="btn-group" style="justify-content:center;margin-top:var(--space-8);">
-          <a href="tel:+17609120848" class="btn btn--primary btn--lg">Call (760) 912-0848</a>
-          <a href="/pricing" class="btn btn--secondary btn--lg">View Pricing</a>
+      <div class="city-shell city-hero__inner" style="position:relative;z-index:1;">
+        <div class="city-hero__copy">
+          <nav class="breadcrumbs" aria-label="Breadcrumb" style="color:rgba(255,255,255,.78);">
+            <a href="/" style="color:rgba(255,255,255,.86);">Home</a><span>/</span><a href="/service-areas" style="color:rgba(255,255,255,.86);">Service Areas</a><span>/</span><span aria-current="page">{city.name}</span>
+          </nav>
+          <span class="section-label" style="color:inherit;">{city.region} mobile veterinary care</span>
+          <h1>{city.hero}</h1>
+          <p class="lead" style="max-width:74ch;margin:var(--space-5) 0 0;color:rgba(255,255,255,.88);">{city.intro}</p>
+          <div class="btn-group" style="margin-top:var(--space-8);">
+            <a href="tel:+17609120848" class="btn btn--primary btn--lg">Call (760) 912-0848</a>
+            <a href="/pricing" class="btn btn--secondary btn--lg">View Pricing</a>
+          </div>
         </div>
+        <figure class="city-hero-media">
+          <img src={heroImage} alt={`Compassionate in-home pet euthanasia support for families in ${city.name}`} width="1672" height="941" loading="eager" decoding="async" fetchpriority="high">
+        </figure>
       </div>
     </section>
 
@@ -74,7 +80,7 @@ const canonical = `https://pethomeeuthanasia.us/service-areas/${city.slug}`;
             <h2>{city.name} frequently asked questions</h2>
             <div class="city-faq-grid">
               {city.faqs.map((faq) => (
-                <article class="city-faq-card">
+                <article class="city-faq-card faq-item">
                   <h3>{faq.question}</h3>
                   <p>{faq.answer}</p>
                 </article>
@@ -96,9 +102,11 @@ const canonical = `https://pethomeeuthanasia.us/service-areas/${city.slug}`;
         <aside class="seo-card city-sticky-card" style="padding:var(--seo-card-pad);">
           <h2 style="font-size:var(--text-2xl);">Schedule in {city.name}</h2>
           <p>Call with your pet’s weight, symptoms, city, preferred timing, and aftercare choice if known.</p>
-          <a href="tel:+17609120848" class="btn btn--primary btn--block">Call Now</a>
-          <a href="/resources/quality-of-life-scale" class="btn btn--secondary btn--block">Quality of Life Scale</a>
-          <a href="/services/pet-cremation-aftercare" class="btn btn--ghost btn--block">Aftercare Guide</a>
+          <div class="stacked-actions">
+            <a href="tel:+17609120848" class="btn btn--primary btn--block">Call Now</a>
+            <a href="/resources/quality-of-life-scale" class="btn btn--secondary btn--block">Quality of Life Scale</a>
+            <a href="/services/pet-cremation-aftercare" class="btn btn--ghost btn--block">Aftercare Guide</a>
+          </div>
           <hr style="margin-block:var(--space-6);border:0;border-top:1px solid var(--color-border-subtle);">
           <p style="font-size:var(--text-sm);color:var(--color-text-muted);">Serving {city.name}, {city.county}, and nearby {city.region} communities by appointment.</p>
         </aside>
