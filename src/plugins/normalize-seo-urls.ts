@@ -76,7 +76,7 @@ function normalizeInternalHref(href: string): string {
 
   const { base, suffix } = splitSuffix(href);
 
-  if (base.startsWith(SITE_ORIGIN) || base.startsWith(LEGACY_ORIGIN)) {
+  if (base.startsWith(SITE_ORIGIN)) {
     const parsed = new URL(base);
     return `${SITE_ORIGIN}${normalizePathname(parsed.pathname)}${suffix}`;
   }
