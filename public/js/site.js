@@ -77,6 +77,22 @@
     document.body.classList.add("has-floating-call-cta");
   }
 
+  const footerBottom = document.querySelector(".footer__bottom");
+  if (footerBottom && !footerBottom.querySelector(".site-credit")) {
+    const siteCredit = document.createElement("p");
+    siteCredit.className = "site-credit";
+    siteCredit.append("Designed and developed with ♥ by ");
+
+    const companyLink = document.createElement("a");
+    companyLink.href = "https://krrish.it/en/";
+    companyLink.target = "_blank";
+    companyLink.rel = "noopener noreferrer";
+    companyLink.textContent = "Krrish.it";
+
+    siteCredit.appendChild(companyLink);
+    footerBottom.appendChild(siteCredit);
+  }
+
   const fadeElements = document.querySelectorAll(".fade-in-up");
   if (fadeElements.length > 0 && "IntersectionObserver" in window) {
     const fadeObserver = new IntersectionObserver((entries) => {
@@ -93,4 +109,3 @@
     fadeElements.forEach((element) => element.classList.add("visible"));
   }
 });
-
